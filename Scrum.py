@@ -1,0 +1,5 @@
+from SOAPClient import SOAPClient
+# login_token: 84A8477113DA1D48B9CB1378FB4BB5E3upload_token: 8BB030D962D4E246ABD568D6F97C2825
+
+soap = SOAPClient('https://login.bws.birst.com/CommandWebService.asmx?WSDL')
+soap.cancelDataUpload('037EEAAB7D43CC4DA37ACA76212DE4EE', '31BA9E4C080E784C87AE71534D55A3ED')

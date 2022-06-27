@@ -1,0 +1,56 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: birst-upload-daily
+  labels:
+    app: birst-upload
+    version: "1.0"
+spec:
+  schedule: "1 8 * * 0,2,3,4,5,6"
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          priorityClassName: no-preemption
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: "agentpool"
+                      operator: In
+                      values: ["nodepool1"]
+          containers:
+          - name: birst-upload
+            image: ccsprod.azurecr.io/bi/birstupload:1.0
+            imagePullPolicy: Always
+            env:
+            - name: PYTHONUNBUFFERED
+              value: "Yes"
+            command: ["python"]
+            #["check upload process swap copy"]
+            args: ["BirstUpload.py", "-config", "ini/daily.ini", "-steps", "check upload process"]
+            volumeMounts:
+            - name: birstupload-settings
+              mountPath: /opt/birstupload/ini
+            - name: birst-upload-tmp
+              mountPath: /tmp
+            resources:
+              requests:
+                cpu: "0.2"
+                memory: "256Mi"
+              limits:
+                cpu: "0.5"
+                memory: "512Mi"
+          restartPolicy: Never
+          volumes:
+          - name: birstupload-settings
+            secret:
+              secretName: birstupload-settings
+          - name: birst-upload-tmp
+            persistentVolumeClaim:
+              claimName: birst-upload-tmp-pvc
+  concurrencyPolicy: Forbid
