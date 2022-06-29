@@ -45,10 +45,15 @@ def main():
 
     # Already done:
     # Weekly_AR should be wary!
-    source_list = ['Asset', 'Cpn', 'DCCN', 'Ficon', 'FiconUrl', 'Finder', 'HPE', 'Inline', 'Labels', 'Logo', 'LogoURL',
-                   'Missed',
-                   'Request',
-                   'URL', 'Weekly_AR']
+    # 'Asset', 'Cpn', 'DCCN', 'Ficon', 'FiconUrl', 'Finder', 'HPE', 'Inline', 'Labels', 'Logo', 'LogoURL',
+    #                    'Missed',
+    #                    'Request',
+    #                    'URL', 'Weekly_AR'
+    # 'Asset', 'Cpn', 'DCCN', 'Ficon', 'FiconUrl', 'Finder', 'HPE', 'Inline', 'Labels', 'Logo', 'LogoURL',
+    #                    'Missed',
+    #                    'Request',
+    #                    'URL',
+    source_list = ['Weekly_AR']
 
     first_file = True
     for source in source_list:
